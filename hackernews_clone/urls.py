@@ -23,6 +23,7 @@ from login.views import LoginFormView
 from django.contrib.auth.views import logout
 from django.conf.urls import url
 from django.conf import settings
+from posts.views import PostFormView, post
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,8 +31,9 @@ urlpatterns = [
     path('', views.homepage),
     path('register/', UserFormView.as_view()),
     path('login/', LoginFormView.as_view()),
-    path('new/', views.new),
+    path('new/', PostFormView.as_view()),
     path('logout/', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}),
+    url(r'^(?P<article_id>[0-9]+)/$', post, name='post'),
 ]
 
 if settings.DEBUG:
