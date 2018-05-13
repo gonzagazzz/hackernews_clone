@@ -18,11 +18,15 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from login.views import UserFormView
+from login.views import LoginFormView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', views.about),
     path('', views.homepage),
+    path('register/', UserFormView.as_view()),
+    path('login/', LoginFormView.as_view()),
 ]
 
 if settings.DEBUG:
