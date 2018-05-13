@@ -20,6 +20,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from login.views import UserFormView
 from login.views import LoginFormView
+from django.contrib.auth.views import logout
+from django.conf.urls import url
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +30,8 @@ urlpatterns = [
     path('', views.homepage),
     path('register/', UserFormView.as_view()),
     path('login/', LoginFormView.as_view()),
+    path('new/', views.new),
+    path('logout/', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}),
 ]
 
 if settings.DEBUG:
