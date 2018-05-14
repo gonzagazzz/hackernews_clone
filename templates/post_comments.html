@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ article.title }}</title>
+</head>
+<body>
+	<h1><a href="{{ article.link }}">{{ article.title }}</a></h1>
+    
+	{% for comment in comments %}
+	    <p><b>{{ comment.author.username }}</b>: {{ comment.message }}</p>
+	{% endfor %}
+
+	<form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field }}
+            {{ field.errors }}
+        {% endfor %}
+
+        <input id="submit" type="submit" value="Post comment" />
+    </form>
+
+
+</body>
+</html>

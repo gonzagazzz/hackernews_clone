@@ -4,17 +4,11 @@ from django.http import HttpResponseRedirect
 from posts.models import Article
 
 def homepage(request):
-    #return HttpResponse('homepage')
-
-	#for article in Article.objects.all():
-	#	print(article.title)
-	#return render(request, soup)
-
 	data = Article.objects.all()
 	stu = {
 	    "articles": data
 	}
-	return render_to_response("index.html", stu)
+	return render(request, "index.html", stu)	
 
 def about(request):
     #return HttpResponse('about')

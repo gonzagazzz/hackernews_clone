@@ -23,7 +23,7 @@ from login.views import LoginFormView
 from django.contrib.auth.views import logout
 from django.conf.urls import url
 from django.conf import settings
-from posts.views import PostFormView, post
+from posts.views import PostFormView, CommentFormView, upvote, downvote
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +33,9 @@ urlpatterns = [
     path('login/', LoginFormView.as_view()),
     path('new/', PostFormView.as_view()),
     path('logout/', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}),
-    url(r'^(?P<article_id>[0-9]+)/$', post, name='post'),
+    url(r'^comments/(?P<article_id>[0-9]+)/$', CommentFormView.as_view(), name='comments'),
+    url(r'^upvote/(?P<article_id>[0-9]+)/$', upvote, name='upvote'),
+    url(r'^downvote/(?P<article_id>[0-9]+)/$', downvote, name='downvote'),
 ]
 
 if settings.DEBUG:

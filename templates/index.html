@@ -10,10 +10,14 @@
     <div id="header">
         <img id="logo" src="{% static 'res/logo.gif' %}"><b>Hacker News</b>{% if request.user.is_authenticated %}<a href="new" class="left">new</a>{% endif %}{% if not request.user.is_authenticated %}<a href="login" class="left">login</a>{% endif %}{% if not request.user.is_authenticated %}<a href="register" class="left">register</a>{% endif %}{% if request.user.is_authenticated %}<a href="logout" class="left">logout</a>{% endif %}
     </div>
-    <ul>
+    <ol>
 	{% for article in articles %}
-	    <li><a href="{% url 'post' article.id %}">{{ article.title }}</a></li>
+	    <li>
+	    	<a href="{{ article.link }}"><b>{{ article.title }}</b></a> by <i>{{ article.author.username }}</i>
+	    	<a href="{% url 'comments' article.id %}">comments</a><a href="{% url 'upvote' article.id %}">upvote</a><a href="{% url 'downvote' article.id %}">downvote</a>
+	    	<p>{{ article.upvotes }} upvotes</p>
+	    </li>
 	{% endfor %}
-	</ul>
+	</ol>
 </body>
 </html>
