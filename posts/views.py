@@ -24,6 +24,8 @@ class PostFormView(View):
         	if request.user.is_authenticated:
         		temp.author = request.user
         	temp.upvotes = 0
+        	lst = []
+        	temp.set_users_upvoted(lst)
         	temp.save()
         	return redirect('../')
 
@@ -41,8 +43,8 @@ class CommentFormView(View):
         except Article.DoesNotExist:
         	raise Http404("Article does not exist")
 
-        data = Comment.objects.filter(article=article)
-        return render(request, self.template_name, {'form': form, "comments": data})
+        comments = Comment.objects.filter(article=article)
+        return render(request, self.template_name, {'form': form, "comments": comments, "article": article})
 
     # authenticate user
     def post(self, request, article_id):
@@ -65,8 +67,12 @@ class CommentFormView(View):
 def upvote(request, article_id):
 	try:
 		article = Article.objects.get(pk=article_id)
-		votes = article.upvotes+1
-		Article.objects.filter(pk=article_id).update(upvotes=votes)
+		users_upvoted = article.get_users_upvoted()
+		if users_upvoted.count(request.user.username) == 0:
+			article.upvotes+=1
+			users_upvoted.append(request.user.username)
+			article.set_users_upvoted(users_upvoted)
+			article.save()
 	except Article.DoesNotExist:
 		raise Http404("Article does not exist")
 	return redirect('../..')
@@ -74,8 +80,22 @@ def upvote(request, article_id):
 def downvote(request, article_id):
 	try:
 		article = Article.objects.get(pk=article_id)
-		votes = article.upvotes-1
-		Article.objects.filter(pk=article_id).update(upvotes=votes)
+		users_upvoted = article.get_users_upvoted()
+		if users_upvoted.count(request.user.username) > 0:
+			article.upvotes -= 1
+			users_upvoted.remove(request.user.username)
+			article.set_users_upvoted(users_upvoted)
+			article.save()
+	except Article.DoesNotExist:
+		raise Http404("Article does not exist")
+	return redirect('../..')
+
+def hide(request, article_id):
+	try:
+		article = Article.objects.get(pk=article_id)
+		if article.visible is True:
+			article.visible = False
+			article.save()
 	except Article.DoesNotExist:
 		raise Http404("Article does not exist")
 	return redirect('../..')

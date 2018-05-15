@@ -2,15 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="../static/res/favicon.ico"/>
     <title>{{ article.title }}</title>
 </head>
 <body>
-	<h1><a href="{{ article.link }}">{{ article.title }}</a></h1>
-    
-	{% for comment in comments %}
-	    <p><b>{{ comment.author.username }}</b>: {{ comment.message }}</p>
-	{% endfor %}
+	<h1><a href="{{ article.link }}">{{ article.title }}</a></h1>	
 
+    {% if request.user.is_authenticated %}
+	<h2>Post your own comment:</h2>
 	<form method="post" enctype="multipart/form-data">
 
         {% csrf_token %}
@@ -21,6 +20,13 @@
 
         <input id="submit" type="submit" value="Post comment" />
     </form>
+    {% endif %}
+
+    <h2>Comments:</h2>
+
+    {% for comment in comments %}
+	    <p><b>{{ comment.author.username }}</b>: {{ comment.message }}</p>
+	{% endfor %}
 
 
 </body>

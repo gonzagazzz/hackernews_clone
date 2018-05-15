@@ -1,5 +1,5 @@
 body {
-	background-color: white;
+	background-color: #f6f6ef;
 }
 
 a {
@@ -7,17 +7,44 @@ a {
 	padding: 2px;
 }
 
+a:link {
+    color: black;
+}
+
+a:active { 
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: #ff6600;
+}
+
+a.headerlink:hover {
+	color: #f6f6ef;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.headertext {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
 #header {
 	background-color: #ff6600;
+	padding: 5px;
 }
 
 #logo {
 	border-style: solid;
 	border-width: 1px;
 	border-color: white;
-}
-
-.left {
-	display: inline-block;
-	text-align: left;
 }

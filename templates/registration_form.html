@@ -6,13 +6,16 @@
 </head>
 <body>
 	<h1>Sign Up</h1>
+    <p>Create your Hacker News Clone account.</p>
 	{% if error_message %}
 		{{ error_message }}
 	{% endif %}
     <form action="" method="post">
     	{% csrf_token %}
-		Username: <input type="text" name="username"><br>
-		Password: <input type="password" name="password"><br>
+        {% for field in form %}
+            {{ field }}
+            {{ field.errors }}
+        {% endfor %}
 	<input type="submit" value="Sign Up">
 	</form>
 </body>

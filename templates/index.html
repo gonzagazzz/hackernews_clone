@@ -4,20 +4,41 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="static/res/favicon.ico"/>
     <title>Hacker News</title>
 </head>
 <body>
-    <div id="header">
-        <img id="logo" src="{% static 'res/logo.gif' %}"><b>Hacker News</b>{% if request.user.is_authenticated %}<a href="new" class="left">new</a>{% endif %}{% if not request.user.is_authenticated %}<a href="login" class="left">login</a>{% endif %}{% if not request.user.is_authenticated %}<a href="register" class="left">register</a>{% endif %}{% if request.user.is_authenticated %}<a href="logout" class="left">logout</a>{% endif %}
+    <div id="header" class="center">
+        <img id="logo" src="{% static 'res/logo.gif' %}"><b class="headertext">Hacker News</b>{% if request.user.is_authenticated %}<a href="new" class="headerlink">new</a>{% endif %}{% if not request.user.is_authenticated %}|<a href="login" class="headerlink">login</a>{% endif %}{% if not request.user.is_authenticated %}|<a href="register" class="headerlink">register</a>{% endif %}{% if request.user.is_authenticated %}|<a href="logout" class="headerlink">logout</a>{% endif %}
     </div>
-    <ol>
+    <ul>
 	{% for article in articles %}
-	    <li>
-	    	<a href="{{ article.link }}"><b>{{ article.title }}</b></a> by <i>{{ article.author.username }}</i>
-	    	<a href="{% url 'comments' article.id %}">comments</a><a href="{% url 'upvote' article.id %}">upvote</a><a href="{% url 'downvote' article.id %}">downvote</a>
-	    	<p>{{ article.upvotes }} upvotes</p>
-	    </li>
+		{% if article.visible == True %}
+		    <li class="center">
+		    	<a href="{{ article.link }}"><b>{{ article.title }}</b></a> by <i>{{ article.author.username }}</i>
+		    	|<a href="{% url 'comments' article.id %}">comments</a>{% if request.user.is_authenticated %}{% if article.upvoted == False %}|<a href="{% url 'upvote' article.id %}">upvote</a>{% endif %}{% endif %}{% if request.user.is_authenticated %}{% if article.upvoted == True %}|<a href="{% url 'downvote' article.id %}">downvote</a>{% endif %}{% endif %}
+		    	<p>{{ article.upvotes }} upvotes {% if request.user.username == 'hamilton' %}| {{ article.count_comments }} comments | <a href="{% url 'hide' article.id %}">hide</a>{% endif %}</p>
+		    </li>
+	    {% endif %}
 	{% endfor %}
-	</ol>
+	</ul>
+
+	<div class="center">
+	{% if articles.has_other_pages %}
+  		{% if articles.has_previous %}
+  			<a href="?page={{ users.previous_page_number }}"></a>
+    	{% endif %}
+    	{% for i in articles.paginator.page_range %}
+	      	{% if articles.number == i %}
+	        	<span>{{ i }}</span>
+	      	{% else %}
+	        	<a href="?page={{ i }}">{{ i }}</a>
+	      	{% endif %}
+    	{% endfor %}
+    	{% if articles.has_next %}
+      		<a href="?page={{ users.next_page_number }}"></a>
+    	{% endif %}
+	{% endif %}
+	</div>
 </body>
 </html>

@@ -129,3 +129,10 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn")
 
 LOGOUT_REDIRECT_URL = '../'
+
+EMAIL_HOST = 'smtp.sapo.pt'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'botclone123@sapo.pt'
+EMAIL_HOST_PASSWORD = 'abcd1234'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'TestTeam <noreply@example.com>'
