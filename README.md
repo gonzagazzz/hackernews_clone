@@ -1,6 +1,7 @@
 # hackernews_clone
 
-Clone of the website Hacker News - Faber Ventures Challenge 2018
+Clone of the website Hacker News
+This website was created as a challenge project to Faber Ventures Internship 2018
 
 ## Getting Started
 
@@ -44,6 +45,20 @@ python manage.py runserver
 ```
 
 Now you can access the website in http://127.0.0.1:8000
+
+## Special Accounts
+
+### Administrator account
+```
+Username: faber_admin
+Password: letsjoinfaber
+```
+
+### Backoffice account
+```
+Username: faber_backoffice
+Password: letsjoinfaber
+```
 
 ## Authors
 

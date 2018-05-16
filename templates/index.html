@@ -12,12 +12,12 @@
         <img id="logo" src="{% static 'res/logo.gif' %}"><b class="headertext">Hacker News</b>{% if request.user.is_authenticated %}<a href="new" class="headerlink">new</a>{% endif %}{% if not request.user.is_authenticated %}|<a href="login" class="headerlink">login</a>{% endif %}{% if not request.user.is_authenticated %}|<a href="register" class="headerlink">register</a>{% endif %}{% if request.user.is_authenticated %}|<a href="logout" class="headerlink">logout</a>{% endif %}
     </div>
     <ul>
-	{% for article in articles %}
+	{% for article in articles reversed %}
 		{% if article.visible == True %}
 		    <li class="center">
 		    	<a href="{{ article.link }}"><b>{{ article.title }}</b></a> by <i>{{ article.author.username }}</i>
 		    	|<a href="{% url 'comments' article.id %}">comments</a>{% if request.user.is_authenticated %}{% if article.upvoted == False %}|<a href="{% url 'upvote' article.id %}">upvote</a>{% endif %}{% endif %}{% if request.user.is_authenticated %}{% if article.upvoted == True %}|<a href="{% url 'downvote' article.id %}">downvote</a>{% endif %}{% endif %}
-		    	<p>{{ article.upvotes }} upvotes {% if request.user.username == 'hamilton' %}| {{ article.count_comments }} comments | <a href="{% url 'hide' article.id %}">hide</a>{% endif %}</p>
+		    	<p>{{ article.upvotes }} upvotes {% if request.user.username == 'faber_backoffice' %}| {{ article.count_comments }} comments | <a href="{% url 'hide' article.id %}">hide</a>{% endif %}</p>
 		    </li>
 	    {% endif %}
 	{% endfor %}
